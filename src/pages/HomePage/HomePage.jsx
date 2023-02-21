@@ -21,15 +21,14 @@ export function HomePage() {
   return (
     <>
       <h1>Trending today</h1>
-      {trendings && (
-        <ul>
-          {trendings.map(trending => (
-            <li key={trending.id}>
-              <Link to={trending.id}>{trending.title}</Link>
-            </li>
-          ))}
-        </ul>
-      )}
+      {trendings &&
+        trendings.map(trending => (
+          <li key={trending.id}>
+            <Link key={trending.id} to={`/movies/${trending.id}`}>
+              {trending.title}
+            </Link>
+          </li>
+        ))}
     </>
   );
 }

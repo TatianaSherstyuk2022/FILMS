@@ -11,18 +11,28 @@ export const fetchTrendingApi = async () => {
   return data;
 };
 
-// export const requestPostDetails = async (postId = '1') => {
-//   const { data } = await axios.get(
-//     `https://jsonplaceholder.typicode.com/posts/${postId}`
-//   );
+export const fetchMovieById = async (movieId) => {
+  const { data } = await axios.get(`/movie/${movieId}?api_key=${API_KEY}&language=en-US`);
+  return data;
+}
 
-//   return data;
-// };
+export const fetchSearchApi = async (query) => {
+  const { data } = await axios.get(
+    `/search/movie?api_key=${API_KEY}&query=${query}&language=en-US&page=1&include_adult=false`
+  );
+  return data;
+};
 
-// export const requestComments = async (postId = '1') => {
-//   const { data } = await axios.get(
-//     `https://jsonplaceholder.typicode.com/posts/${postId}/comments`
-//   );
+export const fetchCast = async id => {
+  const { data } = await axios.get(
+    `/movie/${id}/credits?api_key=${API_KEY}&language=en-US`
+  );
+  return data;
+};
 
-//   return data;
-// };
+export const fetchReview = async id => {
+  const { data } = await axios.get(
+    `/movie/${id}/reviews?api_key=${API_KEY}&language=en-US&page=1`
+  );
+  return data;
+};
