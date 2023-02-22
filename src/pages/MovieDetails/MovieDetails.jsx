@@ -12,7 +12,6 @@ function MovieDetailsPage() {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
   const backLinkHref = location.state?.from ?? '/';
 
   useEffect(() => {
@@ -22,7 +21,7 @@ function MovieDetailsPage() {
         const movie = await fetchMovieById(movieId);
         setMovie(movie);
       } catch (error) {
-        setError(error.message);
+        console.log(error.message);
       } finally {
         setIsLoading(false);
       }
