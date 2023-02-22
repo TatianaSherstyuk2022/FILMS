@@ -1,18 +1,25 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+
 import { Link } from 'react-router-dom';
 import { fetchTrendingApi } from 'services/api';
+import { Loader } from 'components/Loader/Loader';
 
-export function HomePage() {
+import s from '../HomePage/HomePage.module.css';
+
+function HomePage() {
   const [trendings, setTrending] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function moviesFetch() {
       try {
+        setIsLoading(true);
         const { results } = await fetchTrendingApi();
         setTrending(results);
       } catch (err) {
         console.log(err);
+      } finally {
+        setIsLoading(false);
       }
     }
     moviesFetch();
@@ -20,6 +27,7 @@ export function HomePage() {
 
   return (
     <>
+      {isLoading && <Loader />}
       <h1>Trending today</h1>
       {trendings &&
         trendings.map(trending => (
@@ -32,3 +40,5 @@ export function HomePage() {
     </>
   );
 }
+
+export default HomePage;

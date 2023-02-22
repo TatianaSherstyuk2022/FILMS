@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 
 const API_KEY = '6761e5de3d20f3ac36b904d02ab8823a';
@@ -23,16 +22,16 @@ export const fetchSearchApi = async (query) => {
   return data;
 };
 
-export const fetchCast = async id => {
+export const fetchCast = async movieId => {
   const { data } = await axios.get(
-    `/movie/${id}/credits?api_key=${API_KEY}&language=en-US`
+    `/movie/${movieId}/credits?api_key=${API_KEY}&language=en-US&page=1`
   );
   return data;
 };
 
-export const fetchReview = async id => {
+export const fetchReview = async movieId => {
   const { data } = await axios.get(
-    `/movie/${id}/reviews?api_key=${API_KEY}&language=en-US&page=1`
+    `/movie/${movieId}/reviews?api_key=${API_KEY}&language=en-US&page=1`
   );
   return data;
 };

@@ -1,15 +1,19 @@
-import { Cast } from 'components/Cast/Cast.jsx';
-import { Loader } from 'components/Loader/Loader';
-import React, { useEffect, useState } from 'react';
-import { Link, NavLink, Outlet, useParams } from 'react-router-dom';
+import React, { useEffect, useState, Suspense } from 'react';
+import { Link, Outlet, useParams, useLocation } from 'react-router-dom';
+
 import { fetchMovieById } from 'services/api';
 import { MovieCard } from '../../components/MovieCard/MovieCard.jsx';
+import { Loader } from 'components/Loader/Loader';
 
-export function MovieDetailsPage() {
+import s from './MovieDetails.module.css';
+
+function MovieDetailsPage() {
+  const location = useLocation();
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const backLinkHref = location.state?.from ?? '/';
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -28,17 +32,32 @@ export function MovieDetailsPage() {
 
   return (
     <>
+      {isLoading && <Loader />}
+      <div>
+        {' '}
+        <Link to={backLinkHref} className={s.btn}>
+          Back
+        </Link>
+      </div>
       {movie && (
         <>
           <MovieCard movie={movie} />
           <div>
             <h2>Additional information</h2>
-            <NavLink to={'cast'}> Cast</NavLink>
-            {/* <NavLink to={'reviews'}> Reviews</NavLink> */}
+            <Link to={'cast'} state={location.state} className={s.link}>
+              Cast
+            </Link>
+            <Link to={'reviews'} state={location.state} className={s.link}>
+              Reviews
+            </Link>
           </div>
+          <Suspense fallback={null}>
+            <Outlet />
+          </Suspense>
         </>
       )}
-      {/* <Outlet /> */}
     </>
   );
 }
+
+export default MovieDetailsPage;

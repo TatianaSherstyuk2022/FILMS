@@ -1,10 +1,14 @@
-import { MovieCard } from 'components/MovieCard/MovieCard';
-import SearchForm from 'components/SearchForm/SearchForm';
 import React, { useState, useEffect } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
-import { fetchSearchApi } from 'services/api';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 
-export function Movies() {
+import SearchForm from 'components/SearchForm/SearchForm';
+import { fetchSearchApi } from 'services/api';
+import { Loader } from 'components/Loader/Loader';
+
+import s from './Movies.module.css';
+
+function Movies() {
+  const location = useLocation();
   const [movies, setMovies] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -36,11 +40,16 @@ export function Movies() {
   return (
     <section>
       <SearchForm onSubmit={onSubmit} defaultValue={searchQuery} />
+      {isLoading && <Loader />}
       {movies && (
         <ul>
           {movies.map(movie => (
             <li key={movie.id}>
-              <Link key={movie.id} to={`/movies/${movie.id}`}>
+              <Link
+                key={movie.id}
+                to={`${movie.id}`}
+                state={{ from: location }}
+              >
                 {movie.title}
               </Link>
             </li>
@@ -50,3 +59,5 @@ export function Movies() {
     </section>
   );
 }
+
+export default Movies;

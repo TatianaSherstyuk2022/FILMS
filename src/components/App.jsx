@@ -1,28 +1,41 @@
+import React, { lazy, Suspense } from 'react';
 import { NavLink, Route, Routes } from 'react-router-dom';
-import { Movies } from 'pages/Movies/Movies';
-import { HomePage } from 'pages/HomePage/HomePage';
-import { MovieDetailsPage } from 'pages/MovieDetails/MovieDetails';
-import { Cast } from './Cast/Cast';
+
+import s from './App.module.css';
+
+const LazyHomePage = lazy(() => import('pages/HomePage/HomePage'));
+const LazyMovieDetailsPage = lazy(() =>
+  import('pages/MovieDetails/MovieDetails')
+);
+const LazyMovies = lazy(() => import('pages/Movies/Movies'));
+const LazyCast = lazy(() => import('./Cast/Cast'));
+const LazyReviews = lazy(() => import('./Reviews/Reviews'));
 
 export function App() {
   return (
     <>
-      <header>
+      <header className={s.header}>
         <nav>
-          <NavLink to="/">Home</NavLink>
-          <NavLink to="/movies">Movies</NavLink>
+          <NavLink to="/" className={s.link}>
+            Home
+          </NavLink>
+          <NavLink to="/movies" className={s.link}>
+            Movies
+          </NavLink>
         </nav>
       </header>
 
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/movies/:movieId/*" element={<MovieDetailsPage />}>
-          <Route path="cast" element={<Cast />} />
-          {/* <Route path="reviews" element={<Reviews />} /> */}
-        </Route>
-        <Route path="/movies" element={<Movies />} />
-        <Route path="*" element={<div>Page not found </div>} />
-      </Routes>
+      <Suspense>
+        <Routes>
+          <Route path="/" element={<LazyHomePage />} />
+          <Route path="/movies/:movieId/*" element={<LazyMovieDetailsPage />}>
+            <Route path="cast" element={<LazyCast />} />
+            <Route path="reviews" element={<LazyReviews />} />
+          </Route>
+          <Route path="/movies" element={<LazyMovies />} />
+          <Route path="*" element={<div>Page not found </div>} />
+        </Routes>
+      </Suspense>
     </>
   );
 }
