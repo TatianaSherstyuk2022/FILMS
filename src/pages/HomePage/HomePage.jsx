@@ -31,7 +31,7 @@ function HomePage() {
       <h1>Trending today</h1>
       {trendings &&
         trendings.map(trending => (
-          <li key={trending.id}>
+          <li key={trending.id} className={s.list}>
             <Link key={trending.id} to={`/movies/${trending.id}`}>
               {trending.title}
             </Link>
