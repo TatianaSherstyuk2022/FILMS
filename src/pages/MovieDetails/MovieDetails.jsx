@@ -42,7 +42,7 @@ function MovieDetailsPage() {
         <>
           <MovieCard movie={movie} />
           <div>
-            <h2>Additional information</h2>
+            <h2 className={s.title}>Additional information</h2>
             <Link to={'cast'} state={location.state} className={s.link}>
               Cast
             </Link>

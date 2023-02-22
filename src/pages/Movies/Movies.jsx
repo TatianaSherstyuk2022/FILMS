@@ -44,7 +44,7 @@ function Movies() {
       {movies && (
         <ul>
           {movies.map(movie => (
-            <li key={movie.id}>
+            <li key={movie.id} className={s.list}>
               <Link
                 key={movie.id}
                 to={`${movie.id}`}
