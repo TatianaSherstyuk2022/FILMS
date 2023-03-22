@@ -4,6 +4,7 @@ import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import SearchForm from 'components/SearchForm/SearchForm';
 import { fetchSearchApi } from 'services/api';
 import { Loader } from 'components/Loader/Loader';
+import noPhoto from '../../images/no_image.jpg';
 
 import s from './Movies.module.css';
 
@@ -42,16 +43,26 @@ function Movies() {
       <SearchForm onSubmit={onSubmit} defaultValue={searchQuery} />
       {isLoading && <Loader />}
       {movies && (
-        <ul>
+        <ul className={s.moviesList}>
           {movies.map(movie => (
-            <li key={movie.id} className={s.list}>
+            <li key={movie.id} className={s.moviesItem}>
               <Link
                 key={movie.id}
+                lassName={s.link}
                 to={`${movie.id}`}
                 state={{ from: location }}
               >
-                {movie.title}
+                <img
+                  src={
+                    movie.poster_path
+                      ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+                      : noPhoto
+                  }
+                  alt={movie.title}
+                  className={s.poster}
+                />
               </Link>
+              <span className={s.movieTitle}>{movie.title}</span>
             </li>
           ))}
         </ul>

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchTrendingApi } from 'services/api';
 import { Loader } from 'components/Loader/Loader';
+import noPhoto from '../../images/no_image.jpg';
 
 import s from '../HomePage/HomePage.module.css';
 
@@ -28,15 +29,30 @@ function HomePage() {
   return (
     <>
       {isLoading && <Loader />}
-      <h1>Trending today</h1>
-      {trendings &&
-        trendings.map(trending => (
-          <li key={trending.id} className={s.list}>
-            <Link key={trending.id} to={`/movies/${trending.id}`}>
-              {trending.title}
-            </Link>
-          </li>
-        ))}
+      <h1 className={s.title}>Trending today</h1>
+      <ul className={s.moviesList}>
+        {trendings &&
+          trendings?.map(trending => (
+            <li key={trending.id} className={s.moviesItem}>
+              <Link
+                key={trending.id}
+                className={s.link}
+                to={`/movies/${trending.id}`}
+              >
+                <img
+                  src={
+                    trending.poster_path
+                      ? `https://image.tmdb.org/t/p/w500/${trending.poster_path}`
+                      : noPhoto
+                  }
+                  alt={trending.title}
+                  className={s.poster}
+                />
+              </Link>
+              <span className={s.movieTitle}>{trending.title}</span>
+            </li>
+          ))}
+      </ul>
     </>
   );
 }
