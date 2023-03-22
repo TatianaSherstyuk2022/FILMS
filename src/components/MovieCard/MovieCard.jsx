@@ -9,24 +9,26 @@ export function MovieCard({ movie }) {
 
   return (
     <>
-      <div className={s.content}>
+      <div className={s.movies}>
         <img
           src={'https://image.tmdb.org/t/p/w500/' + poster_path}
           alt={title}
-          width="300"
+          width="250"
         />
         <div className={s.about}>
-          <h2 className={s.title}>
+          <h2 className={s.mainTitle}>
             {title}({new Date(release_date).getFullYear()})
           </h2>
-          <p>
-            <b>User Scope:</b> {Math.round(vote_average * 10)}%
+          <p className={s.score}>
+            <b className={s.title}>User Scope:</b>{' '}
+            {Math.round(vote_average * 10)}%
           </p>
-          <p>
-            <b>Overview:</b> {overview}
+          <p className={s.score}>
+            <b className={s.title}>Overview:</b> {overview}
           </p>
-          <p>
-            <b>Genres:</b> {genres.map(genre => genre.name).join(', ')}
+          <p className={s.score}>
+            <b className={s.title}>Genres:</b>{' '}
+            {genres.map(genre => genre.name).join(', ')}
           </p>
         </div>
       </div>
